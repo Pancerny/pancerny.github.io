@@ -42,7 +42,7 @@
         }
 
         /* ==========================================
-           NAWIGACJA
+           NAWIGACJA Z NIESTANDARDOWYMI TOOLTIPAMI
            ========================================== */
         nav {
             padding: 30px 5%;
@@ -60,22 +60,57 @@
             font-weight: 900;
             letter-spacing: 2px;
             text-transform: uppercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
         }
 
         .nav-links a {
             color: var(--text-main);
             text-decoration: none;
-            font-size: 20px;
-            margin-left: 20px;
-            transition: color 0.3s;
+            font-size: 22px;
+            transition: color 0.3s, transform 0.3s;
+            position: relative;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
         }
 
         .nav-links a:hover {
             color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Elegancki Dymek (Tooltip) w CSS */
+        .nav-links a::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid #333;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .nav-links a:hover::after {
+            opacity: 1;
+            bottom: -40px;
         }
 
         /* ==========================================
-           SEKCJA HERO (O MNIE)
+           SEKCJA HERO (O MNIE) ZE ZBLURROWANYM TŁEM
            ========================================== */
         .hero {
             min-height: 70vh;
@@ -84,9 +119,35 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 100px 20px 40px;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            padding: 120px 20px 60px;
+            position: relative;
+            overflow: hidden;
             border-bottom: 1px solid #222;
+        }
+
+        /* Rozmyte tło (Blur) */
+        .hero-bg {
+            position: absolute;
+            top: -20px; left: -20px; right: -20px; bottom: -20px; /* Marginesy by zapobiec białym krawędziom rozmycia */
+            /* Możesz tu podmienić URL na swoje dowolne tło/zdjęcie */
+            background: url('https://images.unsplash.com/photo-1511556532299-8f662fc26c06?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+            filter: blur(12px) brightness(0.25);
+            z-index: 0;
+        }
+
+        /* Utrzymuje zawartość nad rozmytym tłem */
+        .hero > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Logo dodawane jako obrazek nad tytułem */
+        .hero-logo {
+            width: 140px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
+            border-radius: 50%;
         }
 
         .hero-title {
@@ -95,22 +156,25 @@
             font-weight: 700;
             margin-bottom: 10px;
             letter-spacing: 2px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
         }
 
         .hero-subtitle {
             font-size: 1.2rem;
-            color: var(--text-muted);
+            color: #ccc;
             font-weight: 300;
             letter-spacing: 4px;
             text-transform: uppercase;
             margin-bottom: 40px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
         .hero-bio {
             max-width: 600px;
             font-size: 1rem;
-            color: #ccc;
+            color: #bbb;
             margin-bottom: 40px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
 
         .gear-list {
@@ -122,14 +186,16 @@
         }
 
         .gear-badge {
-            background: var(--surface-color);
-            border: 1px solid #333;
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(5px);
+            border: 1px solid #444;
             padding: 8px 16px;
             border-radius: 30px;
             font-size: 0.85rem;
             font-weight: 700;
             letter-spacing: 1px;
             color: var(--text-main);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
         .hero-actions {
@@ -139,34 +205,26 @@
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 12px 35px;
             border-radius: 4px;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 900;
             font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             transition: all 0.3s ease;
         }
 
         .btn-primary {
             background-color: var(--text-main);
             color: var(--bg-color);
+            box-shadow: 0 4px 15px rgba(255,255,255,0.15);
         }
 
         .btn-primary:hover {
             background-color: #ddd;
             transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            border: 1px solid var(--text-main);
-            color: var(--text-main);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--text-main);
-            color: var(--bg-color);
+            box-shadow: 0 8px 20px rgba(255,255,255,0.25);
         }
 
         /* ==========================================
@@ -189,7 +247,7 @@
             position: relative;
             cursor: pointer;
             overflow: hidden;
-            border-radius: 4px; /* Bardzo subtelne zaokrąglenie */
+            border-radius: 4px;
             background-color: var(--surface-color);
         }
 
@@ -313,7 +371,7 @@
             .hero-subtitle { font-size: 1rem; letter-spacing: 2px; }
             .hero-actions { flex-direction: column; width: 100%; max-width: 300px; }
             .btn { text-align: center; }
-            .nav-links { display: none; /* Ukrywamy ikony na bardzo małym by było czysto */ }
+            .nav-links { display: none; /* Na telefonie chowamy ikonki z góry na rzecz czystości */ }
             nav { justify-content: center; }
         }
 
@@ -331,19 +389,25 @@
     <nav>
         <div class="logo">Pancerny.xoxo</div>
         <div class="nav-links">
-            <a href="https://instagram.com/pancerny.xoxo" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="mailto:twojmail@gmail.com" title="Kontakt"><i class="far fa-envelope"></i></a>
+            <a href="https://instagram.com/pancerny.xoxo" target="_blank" data-tooltip="Pokaż instagrama"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:pancerny@hotmail.com" data-tooltip="Napisz wiadomość..."><i class="far fa-envelope"></i></a>
+            <a href="https://github.com/Pancerny" target="_blank" data-tooltip="Moje inne projekty"><i class="fab fa-github"></i></a>
         </div>
     </nav>
 
     <!-- SEKCJA O MNIE -->
     <section class="hero">
+        <div class="hero-bg"></div>
+        
+        <!-- MIEJSCE NA TWOJE LOGO (Ukryje się, jeśli pliku logo.png nie ma na serwerze) -->
+        <img src="logo.png" alt="Pancerny Logo" class="hero-logo" onerror="this.style.display='none'">
+        
         <h1 class="hero-title">Pancerny.</h1>
         <h2 class="hero-subtitle">Convention & Event Photographer</h2>
         
         <p class="hero-bio">
             Nikon User with love to events! Specjalizuję się w fotografii konwentowej, reportażach i sesjach cosplay.
-            <br><span style="color: #666; font-size: 0.9em; margin-top: 10px; display: block;">#photography #eventphotographer #cosplayer</span>
+            <br><span style="color: #888; font-size: 0.9em; margin-top: 10px; display: block;">#photography #eventphotographer #cosplayer</span>
         </p>
 
         <div class="gear-list">
@@ -354,7 +418,6 @@
 
         <div class="hero-actions">
             <a href="#gallery" class="btn btn-primary">Zobacz portfolio</a>
-            <a href="https://pancek-trackday.web.app" target="_blank" class="btn btn-outline">Trackday App</a>
         </div>
     </section>
 
