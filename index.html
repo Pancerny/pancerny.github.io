@@ -82,7 +82,7 @@
             transform: translateY(-2px);
         }
 
-        /* Elegancki Dymek (Tooltip) w CSS */
+        /* Elegancki Dymek (Tooltip) */
         .nav-links a::after {
             content: attr(data-tooltip);
             position: absolute;
@@ -110,7 +110,7 @@
         }
 
         /* ==========================================
-           SEKCJA HERO (O MNIE) ZE ZBLURROWANYM TŁEM
+           SEKCJA HERO (O MNIE) Z TŁEM W FORMIE SLIDERA
            ========================================== */
         .hero {
             min-height: 70vh;
@@ -125,23 +125,61 @@
             border-bottom: 1px solid #222;
         }
 
-        /* Rozmyte tło (Blur) */
-        .hero-bg {
+        /* Zabezpieczenie treści hero przed wejściem pod tło */
+        .hero > * {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Kontener Slidera */
+        .slider-bg {
             position: absolute;
-            top: -20px; left: -20px; right: -20px; bottom: -20px; /* Marginesy by zapobiec białym krawędziom rozmycia */
-            /* Możesz tu podmienić URL na swoje dowolne tło/zdjęcie */
-            background: url('DSC.jpg') center/cover no-repeat;
-            filter: blur(12px) brightness(0.25);
+            top: -20px; left: -20px; right: -20px; bottom: -20px; /* margines na krawędzie blura */
             z-index: 0;
         }
 
-        /* Utrzymuje zawartość nad rozmytym tłem */
-        .hero > * {
-            position: relative;
-            z-index: 1;
+        /* Pojedynczy slajd */
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(8px) brightness(0.35); /* Przyciemnienie i blur */
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out; /* Płynne przenikanie (fade) */
         }
 
-        /* Logo dodawane jako obrazek nad tytułem */
+        .slide.active {
+            opacity: 1;
+        }
+
+        /* Pasek postępu slidera (Loading Bar) */
+        .progress-bar-container {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 5;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-main);
+            width: 0%;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* Animacja w CSS (30 sekund) */
+        @keyframes loadingBar {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .progress-fill.active {
+            animation: loadingBar 30s linear forwards;
+        }
+
+        /* Zawartość Hero */
         .hero-logo {
             width: 140px;
             height: auto;
@@ -249,11 +287,12 @@
             overflow: hidden;
             border-radius: 4px;
             background-color: var(--surface-color);
+            display: block; /* Upewnia się, że nie powstaną dziwne przerwy */
         }
 
         .masonry-item img {
             width: 100%;
-            display: block;
+            display: block; /* Usuwa białe marginesy z dołu obrazka */
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
@@ -261,31 +300,39 @@
             transform: scale(1.05);
         }
 
-        /* Subtelny overlay na hover */
+        /* Nakładka przy najechaniu myszką */
         .masonry-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
+            /* Gradient, by napisy na dole były lepiej widoczne */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.8) 100%);
             opacity: 0;
             transition: opacity 0.4s ease;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            justify-content: flex-end; /* Układa zawartość na dole */
+            padding: 20px;
         }
 
         .masonry-item:hover .masonry-overlay {
             opacity: 1;
         }
 
-        .masonry-overlay i {
-            color: white;
-            font-size: 2rem;
-            transform: scale(0.5);
+        /* Tekst (Tytuł zdjęcia) wysuwający się z dołu */
+        .masonry-title {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transform: translateY(15px);
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            margin: 0;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
 
-        .masonry-item:hover .masonry-overlay i {
-            transform: scale(1);
+        .masonry-item:hover .masonry-title {
+            transform: translateY(0);
         }
 
         /* ==========================================
@@ -371,7 +418,7 @@
             .hero-subtitle { font-size: 1rem; letter-spacing: 2px; }
             .hero-actions { flex-direction: column; width: 100%; max-width: 300px; }
             .btn { text-align: center; }
-            .nav-links { display: none; /* Na telefonie chowamy ikonki z góry na rzecz czystości */ }
+            .nav-links { display: none; /* Na telefonie chowamy ikonki z góry */ }
             nav { justify-content: center; }
         }
 
@@ -395,12 +442,26 @@
         </div>
     </nav>
 
-    <!-- SEKCJA O MNIE -->
+    <!-- SEKCJA O MNIE Z PASKIEM ŁADOWANIA -->
     <section class="hero">
-        <div class="hero-bg"></div>
         
-        <!-- MIEJSCE NA TWOJE LOGO (Ukryje się, jeśli pliku logo.png nie ma na serwerze) -->
-        <img src="logo.jpg" alt="Pancerny Logo" class="hero-logo" onerror="this.style.display='none'">
+        <!-- SLIDER TŁA -->
+        <!-- Tutaj wstawiaj kolejne linki w url('') do zdjęć, które mają się zmieniać -->
+        <div class="slider-bg">
+            <div class="slide active" style="background-image: url('DSC.jpg');"></div>
+            <!-- Zdjęcie 2 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=2000&auto=format&fit=crop');"></div>
+            <!-- Zdjęcie 3 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1611016186353-9af58c69a533?q=80&w=2000&auto=format&fit=crop');"></div>
+        </div>
+
+        <!-- PASEK POSTĘPU NA DOLE TŁA -->
+        <div class="progress-bar-container">
+            <div class="progress-fill active" id="progressFill"></div>
+        </div>
+
+        <!-- MIEJSCE NA TWOJE LOGO -->
+        <img src="logo.png" alt="Pancerny Logo" class="hero-logo" onerror="this.style.display='none'">
         
         <h1 class="hero-title">Pancerny.</h1>
         <h2 class="hero-subtitle">Convention & Event Photographer</h2>
@@ -425,44 +486,64 @@
     <section id="gallery" class="portfolio-section">
         <div class="masonry-grid">
             
-            <!-- TUTAJ DODAJESZ SWOJE ZDJĘCIA -->
-            <!-- Podmień linki w src="" na swoje prace -->
-            
+            <!-- ELEMENT GALERII -->
             <div class="masonry-item" onclick="openLightbox(this)">
+                <!-- Jeśli zdjęcie z linku usuniesz lub nie zadziała, ALT się tu NIE wyświetli w brzydki sposób, 
+                     bo zdjęcie ma display: block i tło kontenera to przykryje. -->
                 <img src="https://images.unsplash.com/photo-1608831540955-35094d48694a?q=80&w=800&auto=format&fit=crop" alt="Cosplay 1">
-                <div class="masonry-overlay"><i class="fas fa-expand"></i></div>
+                
+                <!-- Nowa Nakładka (Overlay) - Wyświetli ładny tytuł na dole -->
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Bohater Konwentu</p>
+                </div>
             </div>
 
+            <!-- ELEMENT GALERII -->
             <div class="masonry-item" onclick="openLightbox(this)">
-                <!-- Przykładowe zdjęcie pionowe (portretowe) -->
                 <img src="https://images.unsplash.com/photo-1541534401786-2077e7330a5c?q=80&w=800&auto=format&fit=crop" alt="Cosplay 2">
-                <div class="masonry-overlay"><i class="fas fa-expand"></i></div>
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Sesja Plenerowa</p>
+                </div>
             </div>
 
+            <!-- ELEMENT GALERII -->
             <div class="masonry-item" onclick="openLightbox(this)">
                 <img src="https://images.unsplash.com/photo-1514315384763-ba401779410f?q=80&w=800&auto=format&fit=crop" alt="Event">
-                <div class="masonry-overlay"><i class="fas fa-expand"></i></div>
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Emocje Sceniczne</p>
+                </div>
             </div>
 
+            <!-- ELEMENT GALERII -->
             <div class="masonry-item" onclick="openLightbox(this)">
-                <!-- Przykładowe zdjęcie poziome (krajobrazowe) -->
                 <img src="https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop" alt="Cosplay 4">
-                <div class="masonry-overlay"><i class="fas fa-expand"></i></div>
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Mroczny Klimat</p>
+                </div>
             </div>
 
+            <!-- ELEMENT GALERII -->
             <div class="masonry-item" onclick="openLightbox(this)">
                 <img src="https://images.unsplash.com/photo-1580458148391-8c4951dc1465?q=80&w=800&auto=format&fit=crop" alt="Konwent">
-                <div class="masonry-overlay"><i class="fas fa-expand"></i></div>
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Detale Kostiumu</p>
+                </div>
             </div>
 
+            <!-- ELEMENT GALERII -->
             <div class="masonry-item" onclick="openLightbox(this)">
                 <img src="https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop" alt="Cosplay Group">
-                <div class="masonry-overlay"><i class="fas fa-expand"></i></div>
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Grupowe Ujęcie</p>
+                </div>
             </div>
             
+            <!-- ELEMENT GALERII -->
             <div class="masonry-item" onclick="openLightbox(this)">
                 <img src="https://images.unsplash.com/photo-1554188248-986ada9dbafb?q=80&w=800&auto=format&fit=crop" alt="Detail">
-                <div class="masonry-overlay"><i class="fas fa-expand"></i></div>
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Złota Godzina</p>
+                </div>
             </div>
 
         </div>
@@ -481,43 +562,65 @@
     </div>
 
     <script>
-        // Logika powiększania zdjęć (Lightbox)
+        /* ==========================================
+           LOGIKA SLIDERA (TŁO)
+           ========================================== */
+        const slides = document.querySelectorAll('.slide');
+        const progressFill = document.getElementById('progressFill');
+        let currentSlide = 0;
+        const slideDuration = 30000; // Czas w milisekundach (30s)
+
+        function nextSlide() {
+            // Zdejmujemy 'active' ze starego slajdu
+            slides[currentSlide].classList.remove('active');
+            
+            // Przechodzimy na nowy
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+
+            // Resetujemy animację paska (Loading bar)
+            progressFill.classList.remove('active');
+            
+            // Wymuszamy na przeglądarce tzw. "reflow", żeby zrestartowała animację
+            void progressFill.offsetWidth; 
+            
+            progressFill.classList.add('active');
+        }
+
+        // Odpalenie pętli slidera
+        if(slides.length > 1) {
+            setInterval(nextSlide, slideDuration);
+        }
+
+        /* ==========================================
+           LOGIKA LIGHTBOXA (Galeria)
+           ========================================== */
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
 
         function openLightbox(element) {
             const imgSrc = element.querySelector('img').src;
-            // Można podmienić np. w200 na w2000 żeby ładowało high-res
-            // let highResSrc = imgSrc.replace('w=800', 'w=2000'); 
-            
             lightboxImg.src = imgSrc;
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden'; // Blokujemy scroll w tle
         }
 
         function closeLightbox(event) {
-            // Zamykamy tylko jak klikniesz w tło lub w krzyżyk (nie w samo zdjęcie)
+            // Zamykamy tylko jak klikniesz w tło lub w krzyżyk
             if (event.target !== lightboxImg) {
                 lightbox.classList.remove('active');
                 document.body.style.overflow = 'auto'; // Odblokowujemy scroll
-                
-                // Opóźnienie wyczyszczenia src, aby uniknąć przeskoku podczas animacji znikania
-                setTimeout(() => {
-                    lightboxImg.src = '';
-                }, 300);
+                setTimeout(() => { lightboxImg.src = ''; }, 300);
             }
         }
 
-        // Zamknięcie przyciskiem Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                setTimeout(() => { lightboxImg.src = ''; }, 300);
+                closeLightbox(e);
             }
         });
 
-        // Płynne przewijanie do galerii
+        // Płynne przewijanie
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
