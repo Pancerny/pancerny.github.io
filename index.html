@@ -42,7 +42,7 @@
         }
 
         /* ==========================================
-           NAWIGACJA Z NIESTANDARDOWYMI TOOLTIPAMI
+           NAWIGACJA Z LOGO W ROGU
            ========================================== */
         nav {
             padding: 30px 5%;
@@ -55,12 +55,24 @@
             z-index: 100;
         }
         
-        .logo {
-            font-size: 20px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo {
+            height: 50px;
+            width: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            border: 2px solid #333;
+            transition: 0.3s;
+        }
+        
+        .nav-logo:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
         }
 
         .nav-links {
@@ -110,7 +122,7 @@
         }
 
         /* ==========================================
-           SEKCJA HERO (O MNIE) Z TŁEM W FORMIE SLIDERA
+           SEKCJA HERO Z PASKIEM ŁADOWANIA
            ========================================== */
         .hero {
             min-height: 70vh;
@@ -125,36 +137,33 @@
             border-bottom: 1px solid #222;
         }
 
-        /* Zabezpieczenie treści hero przed wejściem pod tło */
         .hero > * {
             position: relative;
             z-index: 10;
         }
 
-        /* Kontener Slidera */
         .slider-bg {
             position: absolute;
-            top: -20px; left: -20px; right: -20px; bottom: -20px; /* margines na krawędzie blura */
+            top: -20px; left: -20px; right: -20px; bottom: -20px; 
             z-index: 0;
         }
 
-        /* Pojedynczy slajd */
         .slide {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: blur(8px) brightness(0.35); /* Przyciemnienie i blur */
+            /* ZMNIEJSZONY BLUR Z 8px NA 4px */
+            filter: blur(4px) brightness(0.4); 
             opacity: 0;
-            transition: opacity 1.5s ease-in-out; /* Płynne przenikanie (fade) */
+            transition: opacity 1.5s ease-in-out;
         }
 
         .slide.active {
             opacity: 1;
         }
 
-        /* Pasek postępu slidera (Loading Bar) */
         .progress-bar-container {
             position: absolute;
             bottom: 0; left: 0; width: 100%; height: 4px;
@@ -169,7 +178,6 @@
             box-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
-        /* Animacja w CSS (30 sekund) */
         @keyframes loadingBar {
             0% { width: 0%; }
             100% { width: 100%; }
@@ -179,18 +187,10 @@
             animation: loadingBar 30s linear forwards;
         }
 
-        /* Zawartość Hero */
-        .hero-logo {
-            width: 140px;
-            height: auto;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
-            border-radius: 50%;
-        }
-
+        /* Zmiana tytułu na Pancerny.xoxo */
         .hero-title {
             font-family: 'Playfair Display', serif;
-            font-size: 5rem;
+            font-size: 4.5rem;
             font-weight: 700;
             margin-bottom: 10px;
             letter-spacing: 2px;
@@ -251,18 +251,135 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .btn-primary {
             background-color: var(--text-main);
             color: var(--bg-color);
             box-shadow: 0 4px 15px rgba(255,255,255,0.15);
+            border: 1px solid var(--text-main);
         }
 
         .btn-primary:hover {
             background-color: #ddd;
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(255,255,255,0.25);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================
+           TOAST CENNIK (MODAL)
+           ========================================== */
+        .pricing-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .pricing-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .pricing-content {
+            background: var(--surface-color);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(30px);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .pricing-modal.active .pricing-content {
+            transform: translateY(0);
+        }
+
+        .pricing-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 30px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .pricing-close:hover {
+            color: var(--accent);
+        }
+
+        .pricing-content h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-main);
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .pricing-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .pricing-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px dashed #222;
+        }
+
+        .pricing-list li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-package {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 1.1rem;
+        }
+        
+        .pricing-desc {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .pricing-price {
+            font-weight: 900;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .pricing-footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #aaa;
         }
 
         /* ==========================================
@@ -287,12 +404,12 @@
             overflow: hidden;
             border-radius: 4px;
             background-color: var(--surface-color);
-            display: block; /* Upewnia się, że nie powstaną dziwne przerwy */
+            display: block;
         }
 
         .masonry-item img {
             width: 100%;
-            display: block; /* Usuwa białe marginesy z dołu obrazka */
+            display: block;
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
@@ -300,17 +417,15 @@
             transform: scale(1.05);
         }
 
-        /* Nakładka przy najechaniu myszką */
         .masonry-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            /* Gradient, by napisy na dole były lepiej widoczne */
             background: linear-gradient(to bottom, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.8) 100%);
             opacity: 0;
             transition: opacity 0.4s ease;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end; /* Układa zawartość na dole */
+            justify-content: flex-end;
             padding: 20px;
         }
 
@@ -318,7 +433,6 @@
             opacity: 1;
         }
 
-        /* Tekst (Tytuł zdjęcia) wysuwający się z dołu */
         .masonry-title {
             color: #fff;
             font-size: 1.1rem;
@@ -342,7 +456,7 @@
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.95);
-            z-index: 9999;
+            z-index: 10000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -377,7 +491,7 @@
             color: var(--text-muted);
             cursor: pointer;
             transition: color 0.3s;
-            z-index: 10000;
+            z-index: 10001;
         }
 
         .lightbox-close:hover {
@@ -418,7 +532,7 @@
             .hero-subtitle { font-size: 1rem; letter-spacing: 2px; }
             .hero-actions { flex-direction: column; width: 100%; max-width: 300px; }
             .btn { text-align: center; }
-            .nav-links { display: none; /* Na telefonie chowamy ikonki z góry */ }
+            .nav-links { display: none; }
             nav { justify-content: center; }
         }
 
@@ -427,14 +541,20 @@
             .masonry-item { margin-bottom: 15px; }
             .lightbox { padding: 10px; }
             .lightbox-close { top: 10px; right: 20px; font-size: 30px; }
+            .pricing-content { padding: 30px 20px; }
+            .pricing-package { font-size: 1rem; }
+            .pricing-price { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAWIGACJA -->
+    <!-- NAWIGACJA Z LOGO -->
     <nav>
-        <div class="logo">Pancerny.xoxo</div>
+        <div class="logo-container">
+            <!-- Tutaj podmień logo.png na swój plik z avatarem/logiem -->
+            <img src="logo.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
+        </div>
         <div class="nav-links">
             <a href="https://instagram.com/pancerny.xoxo" target="_blank" data-tooltip="Pokaż instagrama"><i class="fab fa-instagram"></i></a>
             <a href="mailto:pancerny@hotmail.com" data-tooltip="Napisz wiadomość..."><i class="far fa-envelope"></i></a>
@@ -442,28 +562,21 @@
         </div>
     </nav>
 
-    <!-- SEKCJA O MNIE Z PASKIEM ŁADOWANIA -->
+    <!-- SEKCJA O MNIE -->
     <section class="hero">
         
-        <!-- SLIDER TŁA -->
-        <!-- Tutaj wstawiaj kolejne linki w url('') do zdjęć, które mają się zmieniać -->
         <div class="slider-bg">
             <div class="slide active" style="background-image: url('DSC.jpg');"></div>
-            <!-- Zdjęcie 2 -->
-            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=2000&auto=format&fit=crop');"></div>
-            <!-- Zdjęcie 3 -->
-            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1611016186353-9af58c69a533?q=80&w=2000&auto=format&fit=crop');"></div>
+            <!-- Zdjęcia w tle -->
+            <div class="slide" style="background-image: url('ANALOG.jpg');"></div>
+            <div class="slide" style="background-image: url('SPECIAL_WEEK.jpg');"></div>
         </div>
 
-        <!-- PASEK POSTĘPU NA DOLE TŁA -->
         <div class="progress-bar-container">
             <div class="progress-fill active" id="progressFill"></div>
         </div>
-
-        <!-- MIEJSCE NA TWOJE LOGO -->
-        <img src="logo.png" alt="Pancerny Logo" class="hero-logo" onerror="this.style.display='none'">
         
-        <h1 class="hero-title">Pancerny.</h1>
+        <h1 class="hero-title">Pancerny.xoxo</h1>
         <h2 class="hero-subtitle">Convention & Event Photographer</h2>
         
         <p class="hero-bio">
@@ -479,70 +592,98 @@
 
         <div class="hero-actions">
             <a href="#gallery" class="btn btn-primary">Zobacz portfolio</a>
+            <!-- Przycisk Cennika -->
+            <a onclick="openPricing(event)" class="btn btn-outline">Cennik</a>
         </div>
     </section>
+
+    <!-- CENNIK MODAL -->
+    <div class="pricing-modal" id="pricingModal" onclick="closePricingEvent(event)">
+        <div class="pricing-content">
+            <span class="pricing-close" onclick="closePricing()">&times;</span>
+            <h2>Oferta Sesji</h2>
+            
+            <ul class="pricing-list">
+                <li>
+                    <div>
+                        <span class="pricing-package">Pakiet "Konwent"</span>
+                        <span class="pricing-desc">Krótka sesja na terenie imprezy (ok. 30 min)<br>5 obrobionych zdjęć</span>
+                    </div>
+                    <span class="pricing-price">100 PLN</span>
+                </li>
+                <li>
+                    <div>
+                        <span class="pricing-package">Sesja Plenerowa</span>
+                        <span class="pricing-desc">Indywidualna sesja w umówionym miejscu (1-2h)<br>15 wyselekcjonowanych i obrobionych zdjęć</span>
+                    </div>
+                    <span class="pricing-price">250 PLN</span>
+                </li>
+                <li>
+                    <div>
+                        <span class="pricing-package">Analog Vibe (Film 35mm)</span>
+                        <span class="pricing-desc">Prawdziwa klisza z Nikon F75<br>Unikalny klimat retro bez filtrów</span>
+                    </div>
+                    <span class="pricing-price">+80 PLN</span>
+                </li>
+                <li>
+                    <div>
+                        <span class="pricing-package">Wydarzenia Specjalne</span>
+                        <span class="pricing-desc">Pełen fotoreportaż z Trackday / Imprezy</span>
+                    </div>
+                    <span class="pricing-price">Do dogadania</span>
+                </li>
+            </ul>
+            
+            <p class="pricing-footer">Aby zarezerwować termin, kliknij ikonę maila lub napisz do mnie na Instagramie!</p>
+        </div>
+    </div>
 
     <!-- GALERIA MASONRY -->
     <section id="gallery" class="portfolio-section">
         <div class="masonry-grid">
             
-            <!-- ELEMENT GALERII -->
-            <div class="masonry-item" onclick="openLightbox(this)">
-                <!-- Jeśli zdjęcie z linku usuniesz lub nie zadziała, ALT się tu NIE wyświetli w brzydki sposób, 
-                     bo zdjęcie ma display: block i tło kontenera to przykryje. -->
-                <img src="https://images.unsplash.com/photo-1608831540955-35094d48694a?q=80&w=800&auto=format&fit=crop" alt="Cosplay 1">
-                
-                <!-- Nowa Nakładka (Overlay) - Wyświetli ładny tytuł na dole -->
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Bohater Konwentu</p>
-                </div>
-            </div>
-
-            <!-- ELEMENT GALERII -->
-            <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="https://images.unsplash.com/photo-1541534401786-2077e7330a5c?q=80&w=800&auto=format&fit=crop" alt="Cosplay 2">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Sesja Plenerowa</p>
-                </div>
-            </div>
-
-            <!-- ELEMENT GALERII -->
-            <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="https://images.unsplash.com/photo-1514315384763-ba401779410f?q=80&w=800&auto=format&fit=crop" alt="Event">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Emocje Sceniczne</p>
-                </div>
-            </div>
-
-            <!-- ELEMENT GALERII -->
-            <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop" alt="Cosplay 4">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Mroczny Klimat</p>
-                </div>
-            </div>
-
-            <!-- ELEMENT GALERII -->
-            <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="https://images.unsplash.com/photo-1580458148391-8c4951dc1465?q=80&w=800&auto=format&fit=crop" alt="Konwent">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Detale Kostiumu</p>
-                </div>
-            </div>
-
-            <!-- ELEMENT GALERII -->
-            <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop" alt="Cosplay Group">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Grupowe Ujęcie</p>
-                </div>
-            </div>
+            <!-- PODSTAWIONE TWOJE ZDJĘCIA -->
             
-            <!-- ELEMENT GALERII -->
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="https://images.unsplash.com/photo-1554188248-986ada9dbafb?q=80&w=800&auto=format&fit=crop" alt="Detail">
+                <img src="ANALOG.jpg" alt="Klisza 35mm" onerror="this.src='https://images.unsplash.com/photo-1608831540955-35094d48694a?q=80&w=800&auto=format&fit=crop'">
                 <div class="masonry-overlay">
-                    <p class="masonry-title">Złota Godzina</p>
+                    <p class="masonry-title">Analog Vibes</p>
+                </div>
+            </div>
+
+            <div class="masonry-item" onclick="openLightbox(this)">
+                <img src="ANALOG2.jpg" alt="Portret" onerror="this.src='https://images.unsplash.com/photo-1541534401786-2077e7330a5c?q=80&w=800&auto=format&fit=crop'">
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Portret Analogowy</p>
+                </div>
+            </div>
+
+            <div class="masonry-item" onclick="openLightbox(this)">
+                <img src="ANALOG3.jpg" alt="Detale" onerror="this.src='https://images.unsplash.com/photo-1514315384763-ba401779410f?q=80&w=800&auto=format&fit=crop'">
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Nikon F75</p>
+                </div>
+            </div>
+
+            <div class="masonry-item" onclick="openLightbox(this)">
+                <img src="ANALOG4.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop'">
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Uchwycić Chwilę</p>
+                </div>
+            </div>
+
+            <!-- UWAGA: Zmienione rozszerzenie z .NEF na .jpg (Przeglądarka nie czyta RAWów) -->
+            <div class="masonry-item" onclick="openLightbox(this)">
+                <img src="SPECIAL_WEEK.jpg" alt="Special Week Cosplay" onerror="this.src='https://images.unsplash.com/photo-1580458148391-8c4951dc1465?q=80&w=800&auto=format&fit=crop'">
+                <div class="masonry-overlay">
+                    <p class="masonry-title">Special Week Cosplay</p>
+                </div>
+            </div>
+
+            <div class="masonry-item" onclick="openLightbox(this)">
+                <img src="DSC.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop'">
+                <div class="masonry-overlay">
+                    <p class="masonry-title">W Kadrze</p>
                 </div>
             </div>
 
@@ -568,28 +709,43 @@
         const slides = document.querySelectorAll('.slide');
         const progressFill = document.getElementById('progressFill');
         let currentSlide = 0;
-        const slideDuration = 30000; // Czas w milisekundach (30s)
+        const slideDuration = 30000;
 
         function nextSlide() {
-            // Zdejmujemy 'active' ze starego slajdu
             slides[currentSlide].classList.remove('active');
-            
-            // Przechodzimy na nowy
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
 
-            // Resetujemy animację paska (Loading bar)
             progressFill.classList.remove('active');
-            
-            // Wymuszamy na przeglądarce tzw. "reflow", żeby zrestartowała animację
             void progressFill.offsetWidth; 
-            
             progressFill.classList.add('active');
         }
 
-        // Odpalenie pętli slidera
         if(slides.length > 1) {
             setInterval(nextSlide, slideDuration);
+        }
+
+        /* ==========================================
+           LOGIKA CENNIKA
+           ========================================== */
+        const pricingModal = document.getElementById('pricingModal');
+
+        function openPricing(e) {
+            e.preventDefault();
+            pricingModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePricing() {
+            pricingModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closePricingEvent(e) {
+            // Zamyka jeśli kliknięto tło poza cennikiem
+            if(e.target === pricingModal) {
+                closePricing();
+            }
         }
 
         /* ==========================================
@@ -602,21 +758,24 @@
             const imgSrc = element.querySelector('img').src;
             lightboxImg.src = imgSrc;
             lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Blokujemy scroll w tle
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeLightbox(event) {
-            // Zamykamy tylko jak klikniesz w tło lub w krzyżyk
             if (event.target !== lightboxImg) {
                 lightbox.classList.remove('active');
-                document.body.style.overflow = 'auto'; // Odblokowujemy scroll
+                // Przywracamy przewijanie tylko jeśli okno cennika też jest zamknięte
+                if(!pricingModal.classList.contains('active')) {
+                    document.body.style.overflow = 'auto'; 
+                }
                 setTimeout(() => { lightboxImg.src = ''; }, 300);
             }
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-                closeLightbox(e);
+            if (e.key === 'Escape') {
+                if (lightbox.classList.contains('active')) closeLightbox(e);
+                if (pricingModal.classList.contains('active')) closePricing();
             }
         });
 
