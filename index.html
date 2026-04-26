@@ -15,6 +15,24 @@
 
     <style>
         /* ==========================================
+           ZABEZPIECZENIE ZDJĘĆ (ANTY-KRADZIEŻOWE)
+           ========================================== */
+        img {
+            -webkit-user-drag: none; /* Blokuje przeciąganie na pulpit (Chrome/Safari) */
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            
+            -webkit-touch-callout: none; /* Blokuje menu po przytrzymaniu palcem na telefonach! */
+            
+            -webkit-user-select: none; /* Blokuje zaznaczanie */
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* ==========================================
            ZMIENNE I BAZOWE USTAWIENIA
            ========================================== */
         :root {
@@ -620,7 +638,7 @@
     <!-- CZARNA KARTA TEKSTOWA WJEŻDŻAJĄCA NA KARUZELĘ -->
     <section class="hero-card">
         
-        <!-- Opcjonalne logo wychodzące do góry nad kartę (tak jak na Twoim screenie z instagrama) -->
+        <!-- Opcjonalne logo wychodzące do góry nad kartę -->
         <img src="logo.jpg" alt="Pancerny Logo" class="hero-logo-center" onerror="this.style.display='none'">
 
         <h1 class="hero-title">Pancerny.xoxo</h1>
@@ -769,6 +787,22 @@
     </div>
 
     <script>
+        /* ==========================================
+           BLOKADA POZYSKIWANIA ZDJĘĆ (ANTY-KRADZIEŻOWA)
+           ========================================== */
+        // Blokada prawego przycisku myszy
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Blokada skrótów klawiszowych (Ctrl+S, Ctrl+U, F12 itp.)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.key === 'u' || e.key === 'U')) {
+                e.preventDefault();
+            }
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+        });
+
         /* ==========================================
            LOGIKA SLIDERA (TOP BACKGROUND)
            ========================================== */
