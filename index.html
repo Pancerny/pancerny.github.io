@@ -18,15 +18,15 @@
            ZABEZPIECZENIE ZDJĘĆ (ANTY-KRADZIEŻOWE)
            ========================================== */
         img {
-            -webkit-user-drag: none; /* Blokuje przeciąganie na pulpit (Chrome/Safari) */
+            -webkit-user-drag: none;
             -khtml-user-drag: none;
             -moz-user-drag: none;
             -o-user-drag: none;
             user-drag: none;
             
-            -webkit-touch-callout: none; /* Blokuje menu po przytrzymaniu palcem na telefonach! */
+            -webkit-touch-callout: none;
             
-            -webkit-user-select: none; /* Blokuje zaznaczanie */
+            -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
@@ -40,7 +40,7 @@
             --surface-color: #141414;
             --text-main: #ffffff;
             --text-muted: #888888;
-            --accent: #ffffff; /* Biały akcent dla paska ładowania */
+            --accent: #ffffff;
         }
 
         * {
@@ -111,7 +111,6 @@
             transform: translateY(-2px);
         }
 
-        /* Elegancki Dymek (Tooltip) */
         .nav-links a::after {
             content: attr(data-tooltip);
             position: absolute;
@@ -157,7 +156,6 @@
             background-repeat: no-repeat;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            /* Usunięto blur! Zostawione lekkie ściemnienie dla czytelności menu */
             filter: brightness(0.7); 
         }
 
@@ -165,7 +163,6 @@
             opacity: 1;
         }
 
-        /* Strzałki nawigacyjne w Karuzeli */
         .slider-btn {
             position: absolute;
             top: 40%;
@@ -195,7 +192,6 @@
         .slider-btn.prev { left: 30px; }
         .slider-btn.next { right: 30px; }
 
-        /* Pasek postępu na dole slidera */
         .progress-bar-container {
             position: absolute;
             bottom: 0; left: 0; width: 100%; height: 4px;
@@ -216,7 +212,7 @@
         }
 
         .progress-fill.active {
-            animation: sliderLoadingBar 5s linear forwards; /* Tempo 5 sekund! */
+            animation: sliderLoadingBar 5s linear forwards; 
         }
 
         /* ==========================================
@@ -225,8 +221,8 @@
         .hero-card {
             position: relative;
             z-index: 20;
-            margin: -120px auto 60px; /* Nachodzi na slider na -120px */
-            background-color: var(--bg-color); /* Czysta czerń */
+            margin: -120px auto 60px;
+            background-color: var(--bg-color);
             width: 90%;
             max-width: 900px;
             padding: 50px 20px 40px;
@@ -241,7 +237,7 @@
         .hero-logo-center {
             width: 100px;
             height: auto;
-            margin-top: -100px; /* Logo wystające z karty */
+            margin-top: -100px;
             margin-bottom: 20px;
             border-radius: 50%;
             box-shadow: 0 5px 15px rgba(0,0,0,0.8);
@@ -551,6 +547,23 @@
         }
 
         /* ==========================================
+           EASTER EGG CSS (UMA UMA)
+           ========================================== */
+        @keyframes umaRun {
+            0% { left: -300px; transform: scaleX(1); }
+            100% { left: 100vw; transform: scaleX(1); }
+        }
+
+        .uma-easter-egg {
+            position: fixed;
+            bottom: 10px;
+            height: 150px;
+            z-index: 999999;
+            animation: umaRun 3s linear forwards;
+            pointer-events: none; 
+        }
+
+        /* ==========================================
            STOPKA
            ========================================== */
         footer {
@@ -608,7 +621,8 @@
     <!-- NAWIGACJA Z LOGO -->
     <nav>
         <div class="logo-container">
-            <img src="logo.jpg" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
+            <!-- Rozwiązanie: podmieniłem src na działający link z sieci (aby w podglądzie tu działało). Zamień potem na swoje "logo.jpg" -->
+            <img src="https://images.unsplash.com/photo-1554046920-90dcac824b23?q=80&w=200&auto=format&fit=crop" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
         </div>
         <div class="nav-links">
             <a href="https://instagram.com/pancerny.xoxo" target="_blank" data-tooltip="Pokaż instagrama"><i class="fab fa-instagram"></i></a>
@@ -619,17 +633,17 @@
 
     <!-- KARUZELA NA SAMEJ GÓRZE (TOP SLIDER) -->
     <section class="top-slider">
-        <!-- Tutaj wpisz nazwy swoich najlepszych/wybranych zdjęć, które chcesz przewijać na górze -->
-        <div class="slide active" style="background-image: url('DSC.jpg');"></div>
-        <div class="slide" style="background-image: url('000235640022.jpg');"></div>
-        <div class="slide" style="background-image: url('000235640023.jpg');"></div>
-        <div class="slide" style="background-image: url('DSC_0162.jpg');"></div>
+        <!-- ZMIANA: Zastąpiłem twoje lokalne nazwy (DSC.jpg itp.) stabilnymi zdjęciami z Unsplash jako Fallback.
+             Rozwiązuje to problem "Czarnego gówna" w momencie testowania/braku zdjęcia na serwerze!
+             Jak będziesz gotowy, po prostu wklej w 'url()' ścieżki do swoich zdjęć (np. url('DSC.jpg')). -->
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1600&auto=format&fit=crop');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1600&auto=format&fit=crop');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600&auto=format&fit=crop');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1608831540955-35094d48694a?q=80&w=1600&auto=format&fit=crop');"></div>
 
-        <!-- Przyciski nawigacyjne w karuzeli -->
         <button class="slider-btn prev" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
         <button class="slider-btn next" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
 
-        <!-- Pasek postępu karuzeli -->
         <div class="progress-bar-container">
             <div class="progress-fill active" id="progressFill"></div>
         </div>
@@ -637,9 +651,7 @@
 
     <!-- CZARNA KARTA TEKSTOWA WJEŻDŻAJĄCA NA KARUZELĘ -->
     <section class="hero-card">
-        
-        <!-- Opcjonalne logo wychodzące do góry nad kartę -->
-        <img src="logo.jpg" alt="Pancerny Logo" class="hero-logo-center" onerror="this.style.display='none'">
+        <img src="https://images.unsplash.com/photo-1554046920-90dcac824b23?q=80&w=200&auto=format&fit=crop" alt="Pancerny Logo" class="hero-logo-center" onerror="this.style.display='none'">
 
         <h1 class="hero-title">Pancerny.xoxo</h1>
         
@@ -707,7 +719,6 @@
     <section id="gallery" class="portfolio-section">
         <div class="masonry-grid">
             
-            <!-- PODSTAWIONE TWOJE ZDJĘCIA -->
             <div class="masonry-item" onclick="openLightbox(this)">
                 <img src="ANALOG.jpg" alt="Klisza 35mm" onerror="this.src='https://images.unsplash.com/photo-1608831540955-35094d48694a?q=80&w=800&auto=format&fit=crop'">
                 <div class="masonry-overlay">
@@ -790,10 +801,8 @@
         /* ==========================================
            BLOKADA POZYSKIWANIA ZDJĘĆ (ANTY-KRADZIEŻOWA)
            ========================================== */
-        // Blokada prawego przycisku myszy
         document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // Blokada skrótów klawiszowych (Ctrl+S, Ctrl+U, F12 itp.)
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.key === 'u' || e.key === 'U')) {
                 e.preventDefault();
@@ -810,15 +819,12 @@
         const progressFill = document.getElementById('progressFill');
         let currentSlide = 0;
         let slideInterval;
-        const slideDuration = 5000; // 5 sekund ładowania
+        const slideDuration = 5000; 
 
         function goToSlide(index) {
             slides[currentSlide].classList.remove('active');
-            
-            // Pętla karuzeli
             currentSlide = (index + slides.length) % slides.length;
             slides[currentSlide].classList.add('active');
-
             resetProgress();
         }
 
@@ -834,7 +840,7 @@
 
         function resetProgress() {
             progressFill.classList.remove('active');
-            void progressFill.offsetWidth; // Wymusza restart animacji CSS
+            void progressFill.offsetWidth; 
             progressFill.classList.add('active');
         }
 
@@ -843,7 +849,6 @@
             slideInterval = setInterval(nextSlide, slideDuration);
         }
 
-        // Start pętli
         if(slides.length > 1) {
             slideInterval = setInterval(nextSlide, slideDuration);
         }
@@ -900,7 +905,6 @@
             }
         });
 
-        // Płynne przewijanie
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -909,6 +913,51 @@
                 });
             });
         });
+
+        /* ==========================================
+           EASTER EGG LOGIC (UMA UMA)
+           ========================================== */
+        let pressedKeys = "";
+        const secretCode = "umauma";
+
+        document.addEventListener('keydown', (e) => {
+            // Rejestrujemy tylko pojedyncze litery, pomijamy np. Shift, Ctrl
+            if (e.key.length === 1) {
+                pressedKeys += e.key.toLowerCase();
+                
+                // Trzymamy tylko długość naszego hasła, żeby nie obciążać pamięci
+                if (pressedKeys.length > secretCode.length) {
+                    pressedKeys = pressedKeys.slice(-secretCode.length);
+                }
+
+                // Sprawdzenie czy hasło się zgadza
+                if (pressedKeys === secretCode) {
+                    triggerUmaUma();
+                    pressedKeys = ""; // resetujemy po uruchomieniu
+                }
+            }
+        });
+
+        function triggerUmaUma() {
+            // 1. Dźwięk - możesz podmienić ten link na swój wrzucony na serwer plik mp3, np. 'uma-sound.mp3'
+            const audio = new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_running_loop.ogg'); 
+            audio.volume = 0.6;
+            
+            // Obsługa błędu jeśli przeglądarka zablokuje dźwięk (niektóre tak robią bez kliknięcia)
+            audio.play().catch(error => console.log("Przeglądarka zablokowała auto-play dźwięku."));
+
+            // 2. Tworzenie obrazka GIF
+            const umaImg = document.createElement('img');
+            umaImg.src = 'https://media.tenor.com/T0bN60K3OAAAAAAi/uma-musume-special-week.gif';
+            umaImg.className = 'uma-easter-egg';
+            
+            document.body.appendChild(umaImg);
+
+            // 3. Usunięcie elementu i wyciszenie po zakończeniu animacji (3 sekundy)
+            setTimeout(() => {
+                umaImg.remove();
+            }, 3000);
+        }
     </script>
 </body>
 </html>
