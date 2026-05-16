@@ -79,10 +79,11 @@
 
         .nav-logo {
             height: 50px;
-            width: 50px;
+            width: auto;
+            max-width: 150px;
             object-fit: contain;
-            border-radius: 10px; /* Delikatne zaokrąglenie zamiast kółka */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            /* Usunięte obramowanie i kółko. Cień dopasowujący się do przezroczystości PNG: */
+            filter: drop-shadow(0 2px 10px rgba(0,0,0,0.8));
             transition: 0.3s;
         }
         
@@ -233,12 +234,12 @@
         }
 
         .hero-logo-center {
-            width: 100px;
+            width: 130px; /* Trochę szersze, żeby ułożenie z tekstem było czytelniejsze */
             height: auto;
             margin-top: -100px;
             margin-bottom: 20px;
-            border-radius: 20px; /* Pasuje do Twojej ikony z pliku PNG */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            /* Usunięte obramowanie i kółko. Cień dopasowujący się do przezroczystości PNG: */
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
         }
 
         .hero-title {
@@ -619,7 +620,7 @@
     <nav>
         <div class="logo-container">
             <!-- Przywrócone Twoje lokalne logo -->
-            <img src="PANCERNY LOGO.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
+            <img src="logo.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
         </div>
         <div class="nav-links">
             <a href="https://instagram.com/pancerny.xoxo" target="_blank" data-tooltip="Pokaż instagrama"><i class="fab fa-instagram"></i></a>
