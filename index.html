@@ -447,10 +447,16 @@
             margin-bottom: 20px;
             position: relative;
             cursor: pointer;
-            overflow: hidden;
             border-radius: 4px;
             background-color: var(--surface-color);
-            display: block;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .img-container {
+            overflow: hidden;
+            position: relative;
         }
 
         .masonry-item img {
@@ -459,24 +465,15 @@
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .masonry-item:hover img {
+        .masonry-item:hover .img-container img {
             transform: scale(1.05);
         }
 
-        .masonry-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.8) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+        .masonry-info {
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            padding: 20px;
-        }
-
-        .masonry-item:hover .masonry-overlay {
-            opacity: 1;
+            gap: 6px;
         }
 
         .masonry-title {
@@ -485,14 +482,17 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transform: translateY(15px);
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             margin: 0;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
 
-        .masonry-item:hover .masonry-title {
-            transform: translateY(0);
+        .masonry-location {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         /* ==========================================
@@ -719,85 +719,115 @@
         <div class="masonry-grid">
             
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="ANALOG.jpg" alt="Klisza 35mm" onerror="this.src='https://images.unsplash.com/photo-1608831540955-35094d48694a?q=80&w=800&auto=format&fit=crop'">
-                <div class="masonry-overlay">
+                <div class="img-container">
+                    <img src="ANALOG.jpg" alt="Klisza 35mm" onerror="this.src='https://images.unsplash.com/photo-1608831540955-35094d48694a?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
                     <p class="masonry-title">Tor Służewiec</p>
                 </div>
             </div>
 
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="ANALOG2.jpg" alt="Portret" onerror="this.src='https://images.unsplash.com/photo-1541534401786-2077e7330a5c?q=80&w=800&auto=format&fit=crop'">
-                <div class="masonry-overlay">
+                <div class="img-container">
+                    <img src="ANALOG2.jpg" alt="Portret" onerror="this.src='https://images.unsplash.com/photo-1541534401786-2077e7330a5c?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
                     <p class="masonry-title">Warszawa w Analogu</p>
                 </div>
             </div>
 
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="ANALOG3.jpg" alt="Detale" onerror="this.src='https://images.unsplash.com/photo-1514315384763-ba401779410f?q=80&w=800&auto=format&fit=crop'">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Animatsuri//Honda Pochita</p>
+                <div class="img-container">
+                    <img src="ANALOG3.jpg" alt="Detale" onerror="this.src='https://images.unsplash.com/photo-1514315384763-ba401779410f?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
+                    <p class="masonry-title">Honda Pochita</p>
+                    <p class="masonry-location"><i class="fas fa-map-marker-alt"></i> Animatsuri</p>
                 </div>
             </div>
 
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="ANALOG4.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop'">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Animatsuri//Riamu Yumemi</p>
+                <div class="img-container">
+                    <img src="ANALOG4.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
+                    <p class="masonry-title">Riamu Yumemi</p>
+                    <p class="masonry-location"><i class="fas fa-map-marker-alt"></i> Animatsuri</p>
                 </div>
             </div>
             
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="2b.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop'">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Warszawskie Targi Fantastyki 2026//2B</p>
+                <div class="img-container">
+                    <img src="2b.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
+                    <p class="masonry-title">2B</p>
+                    <p class="masonry-location"><i class="fas fa-map-marker-alt"></i> Warszawskie Targi Fantastyki 2026</p>
                 </div>
             </div>
             
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="2026.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop'">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Warszawskie Targi Fantastyki 2026//Riyo Reaper</p>
+                <div class="img-container">
+                    <img src="2026.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
+                    <p class="masonry-title">Riyo Reaper</p>
+                    <p class="masonry-location"><i class="fas fa-map-marker-alt"></i> Warszawskie Targi Fantastyki 2026</p>
                 </div>
             </div>
 
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="DSC_0244.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop'">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Warszawskie Targi Fantastyki 2026//Joseph Joestar</p>
+                <div class="img-container">
+                    <img src="DSC_0244.jpg" alt="Wydarzenie" onerror="this.src='https://images.unsplash.com/photo-1627844642677-8b3d6874ebf4?q=80&w=1200&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
+                    <p class="masonry-title">Joseph Joestar</p>
+                    <p class="masonry-location"><i class="fas fa-map-marker-alt"></i> Warszawskie Targi Fantastyki 2026</p>
                 </div>
             </div>
 
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="DSC_0162.jpg" alt="TorSluzewiec" onerror="this.src='https://images.unsplash.com/photo-1580458148391-8c4951dc1465?q=80&w=800&auto=format&fit=crop'">
-                <div class="masonry-overlay">
-                    <p class="masonry-title">Tor Służewiec//Otwarcie sezonu 2026</p>
+                <div class="img-container">
+                    <img src="DSC_0162.jpg" alt="TorSluzewiec" onerror="this.src='https://images.unsplash.com/photo-1580458148391-8c4951dc1465?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
+                    <p class="masonry-title">Otwarcie sezonu 2026</p>
+                    <p class="masonry-location"><i class="fas fa-map-marker-alt"></i> Tor Służewiec</p>
                 </div>
             </div>
 
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="000235640024.jpg" alt="Dodatkowe 1" onerror="this.src='https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop'">
-                <div class="masonry-overlay">
+                <div class="img-container">
+                    <img src="000235640024.jpg" alt="Dodatkowe 1" onerror="this.src='https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
                     <p class="masonry-title">Pod ziemią</p>
                 </div>
             </div>
             
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="000235640024.jpg" alt="Dodatkowe 1" onerror="this.src='https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop'">
-                <div class="masonry-overlay">
+                <div class="img-container">
+                    <img src="000235640024.jpg" alt="Dodatkowe 1" onerror="this.src='https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
                     <p class="masonry-title">Pod ziemią</p>
                 </div>
             </div>
             
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="000235640024.jpg" alt="Dodatkowe 1" onerror="this.src='https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop'">
-                <div class="masonry-overlay">
+                <div class="img-container">
+                    <img src="000235640024.jpg" alt="Dodatkowe 1" onerror="this.src='https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
                     <p class="masonry-title">Pod ziemią</p>
                 </div>
             </div>
 
             <div class="masonry-item" onclick="openLightbox(this)">
-                <img src="000235640024.jpg" alt="Dodatkowe 1" onerror="this.src='https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop'">
-                <div class="masonry-overlay">
+                <div class="img-container">
+                    <img src="000235640024.jpg" alt="Dodatkowe 1" onerror="this.src='https://images.unsplash.com/photo-1563806935293-1629853b0dfd?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="masonry-info">
                     <p class="masonry-title">Pod ziemią</p>
                 </div>
             </div>
